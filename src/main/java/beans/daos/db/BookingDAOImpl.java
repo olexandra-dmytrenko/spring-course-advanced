@@ -67,7 +67,6 @@ public class BookingDAOImpl extends AbstractDAO implements BookingDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-//    @Transactional
     public List<Ticket> getAllTickets() {
         Query query = getCurrentSession().createQuery("select b.ticket from Booking b");
         return ((List<Ticket>) query.list());
