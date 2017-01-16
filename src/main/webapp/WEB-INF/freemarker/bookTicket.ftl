@@ -4,7 +4,7 @@
 <body>
 
 <h2>Ticket Information</h2>
-  <form name="ticket" action="/ticket" method="post">
+  <form name="tickets" action="/ticket" method="post">
   <table>
     <tr>
   	    <td>Your e-mail:</td>

@@ -39,6 +39,7 @@ public class BookingController {
     public String bookTicketSubmit(@ModelAttribute("ticket") Ticket ticket) {
         String eventName = ticket.getEvent().getName();
         Event event = eventName != null ? eventService.getByName(eventName).get(0) : null;
+
         String email = ticket.getUser().getEmail();
         User user = null;
         if (ticket.getUser() != null && ticket.getUser().getEmail() != null) {
@@ -47,7 +48,8 @@ public class BookingController {
                 user = new User(email, "Undefined", LocalDate.now());
             }
         }
-        Ticket ticketBooked = bookingService.bookTicket(user, new Ticket(event, LocalDateTime.now(), Arrays.asList(0), user, 20));
+        Ticket ticketBooked = bookingService.bookTicket(user,
+                new Ticket(event, LocalDateTime.now(), Arrays.asList(Integer.parseInt(ticket.getSeats())), user, 20));
         return null;
     }
 
