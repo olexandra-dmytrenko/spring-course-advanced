@@ -9,7 +9,7 @@ import beans.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,16 +35,24 @@ public class BookingController {
     @Autowired
     EventService eventService;
 
-    @RequestMapping(path = "/bookTicket", method = RequestMethod.POST)
-    public String bookTicketSubmit(@PathVariable("email") String email, @PathVariable("event") String eventName) {
-        Event event = eventService.getByName(eventName).get(0);
-        User user = userService.getUserByEmail(email);
-        Ticket ticket = bookingService.bookTicket(user, new Ticket(event, LocalDateTime.now(), Arrays.asList(0), user, 20));
+    @RequestMapping(path = "/ticket", method = RequestMethod.POST)
+    public String bookTicketSubmit(@ModelAttribute("ticket") Ticket ticket) {
+        String eventName = ticket.getEvent().getName();
+        Event event = eventName != null ? eventService.getByName(eventName).get(0) : null;
+        String email = ticket.getUser().getEmail();
+        User user = null;
+        if (ticket.getUser() != null && ticket.getUser().getEmail() != null) {
+            user = userService.getUserByEmail(email);
+            if (user == null) {
+                user = new User(email, "Undefined", LocalDate.now());
+            }
+        }
+        Ticket ticketBooked = bookingService.bookTicket(user, new Ticket(event, LocalDateTime.now(), Arrays.asList(0), user, 20));
         return null;
     }
 
-//    http://localhost:8080/ticket
-    @RequestMapping(path = "/ticket", method = RequestMethod.GET)
+    //    http://localhost:8080/ticket
+    @RequestMapping(path = "/bookTicket", method = RequestMethod.GET)
     public ModelAndView bookTicket() {
         return new ModelAndView("bookTicket", "command", new Ticket());
     }

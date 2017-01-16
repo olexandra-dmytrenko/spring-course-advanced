@@ -11,10 +11,13 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.ver>4.2.4.RELEASE</spring.ver>
+        <spring.ver>4.2.6.RELEASE</spring.ver>
+        <spring-webmvc.version>4.2.6.RELEASE</spring-webmvc.version>
         <aspectj.ver>1.8.8</aspectj.ver>
         <hibernate.ver>5.1.0.Final</hibernate.ver>
         <h2.ver>1.4.191</h2.ver>
+        <freemarker.version>2.3.20</freemarker.version>
+        <junit.version>4.9</junit.version>
     </properties>
 
     <dependencies>
@@ -81,13 +84,21 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>${junit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.2.6.RELEASE</version>
+            <version>${spring-webmvc.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
+
 
     </dependencies>
 
