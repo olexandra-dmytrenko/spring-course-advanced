@@ -16,10 +16,29 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    
+
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>filters.LogFilter</filter-class>
+        <init-param>
+            <param-name>countRequests</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>filetOutput</param-name>
+            <param-value>I'm LogFilter</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <servlet-name>dispatcher</servlet-name>
+    </filter-mapping>
 
 </web-app>
