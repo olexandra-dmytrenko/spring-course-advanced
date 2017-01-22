@@ -128,7 +128,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Ticket bookTicket(User user, Ticket ticket) {
+    public Ticket bookTicket(User user, final Ticket ticket) {
         if (Objects.isNull(user)) {
             throw new NullPointerException("User is [null]");
         }
@@ -141,12 +141,12 @@ public class BookingServiceImpl implements BookingService {
         boolean seatsAreAlreadyBooked = bookedTickets.stream().filter(bookedTicket -> ticket.getSeatsList().stream().filter(
                 bookedTicket.getSeatsList() :: contains).findAny().isPresent()).findAny().isPresent();
 
-        if (!seatsAreAlreadyBooked)
-            bookingDAO.create(user, ticket);
+        if (!seatsAreAlreadyBooked) {
+            Ticket ticket1 = bookingDAO.create(user, ticket);
+            return ticket1;
+        }
         else
             throw new IllegalStateException("Unable to book ticket: [" + ticket + "]. Seats are already booked.");
-
-        return ticket;
     }
 
     @Override

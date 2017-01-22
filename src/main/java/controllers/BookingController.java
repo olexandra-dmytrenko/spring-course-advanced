@@ -36,7 +36,7 @@ public class BookingController {
     EventService eventService;
 
     @RequestMapping(path = "/ticket", method = RequestMethod.POST)
-    public String bookTicketSubmit(@ModelAttribute("ticket") Ticket ticket) {
+    public String bookTicketSubmit(@ModelAttribute("ticket") Ticket ticket, ModelMap modelAndView) {
         String eventName = ticket.getEvent().getName();
         Event event = eventName != null ? eventService.getByName(eventName).get(0) : null;
 
@@ -50,7 +50,8 @@ public class BookingController {
         }
         Ticket ticketBooked = bookingService.bookTicket(user,
                 new Ticket(event, LocalDateTime.now(), Arrays.asList(Integer.parseInt(ticket.getSeats())), user, 20));
-        return null;
+        modelAndView.addAttribute("ticket", ticketBooked);
+        return "ticket";
     }
 
     //    http://localhost:8080/ticket

@@ -22,7 +22,7 @@
                 <td>${event.rate}
                 <td>${event.auditorium.seatsNumber}
                 <td>${event.basePrice} Euros
-                <td><a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a></td>
+                <td><a href="${bookTicketUrl!"/bookTicket"!}"+ ?event=${event.name}>${bookTicketName!"Book ticket"!}</a></td>
             </tr>
           </#list>
     </table>

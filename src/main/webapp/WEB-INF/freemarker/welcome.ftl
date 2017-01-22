@@ -9,10 +9,14 @@
     </h1>
 
 <p>
+    <#include "/loadUsers.ftl">
+<p>
     <#include "/loadEvents.ftl">
-
-   <a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a>
-
+<div>
+       <a href="${eventsUrl!"/events"!}">${events!"See events"!}</a>
+      <p>
+       <a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a>
+</div>
 <br>
     <#include "/copyright.ftl">
 

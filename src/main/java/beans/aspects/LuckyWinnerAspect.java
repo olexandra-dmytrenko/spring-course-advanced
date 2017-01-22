@@ -3,7 +3,6 @@ package beans.aspects;
 import beans.models.Ticket;
 import beans.models.User;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +39,15 @@ public class LuckyWinnerAspect {
     private void bookTicket(User user, Ticket ticket) {
     }
 
-    @Around("bookTicket(user, ticket)")
+    // @Around("bookTicket(user, ticket)")
     public void countBookTicketByName(ProceedingJoinPoint joinPoint, User user, Ticket ticket) throws Throwable {
         final int randomInt = ThreadLocalRandom.current().nextInt(100 - luckyPercentage + 1);
         if (randomInt == 0) {
             Ticket luckyTicket = new Ticket(ticket.getEvent(), ticket.getDateTime(), ticket.getSeatsList(), ticket.getUser(), 0.0);
             luckyUsers.add(user.getEmail());
-            joinPoint.proceed(new Object[] {user, luckyTicket});
+            joinPoint.proceed(new Object[]{user, luckyTicket});
         } else {
-            joinPoint.proceed();
+            joinPoint.proceed(new Object[]{user, ticket});
         }
     }
 

@@ -13,6 +13,7 @@ public class LogFilter implements Filter {
     static int countRequests = 0;
     static int countResponses = 0;
     static String filetOutput;
+    private FilterConfig filerConfig;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,17 +23,19 @@ public class LogFilter implements Filter {
             this.countRequests = 0;
         }
 //        this.filetOutput = "LogFilter";
+        this.filerConfig = filterConfig;
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("Server info: " + this.filerConfig.getServletContext().getServerInfo().toString());
         System.out.println("Request of type " + ((HttpServletRequest) servletRequest).getMethod()
                 + " is passing from the URL: " + ((HttpServletRequest) servletRequest).getRequestURL());
         System.out.println("Number of requests is: " + ++countRequests);
         filterChain.doFilter(servletRequest, servletResponse);
         System.out.println("Response of type " + ((HttpServletResponse) servletResponse).getStatus()
                 + " and headers " + ((HttpServletResponse) servletResponse).getHeaderNames());
-        filterChain.doFilter(servletRequest, servletResponse);
+        //filterChain.doFilter(servletRequest, servletResponse);
         System.out.println("Number of responses is: " + ++countResponses);
     }
 

@@ -6,6 +6,7 @@ import beans.models.User;
 import beans.services.AuditoriumService;
 import beans.services.EventService;
 import beans.services.UserService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * Created by olexandra on 07.01.17.
  */
+@Log
 @Controller
 public class EventsController {
 
@@ -40,13 +42,18 @@ public class EventsController {
 
     @RequestMapping(path = "/events", method = RequestMethod.POST)
     public String loadDummyvEnts(ModelMap modelMap) {
-        eventService.create(new Event("Movie", Rate.LOW, 12, LocalDateTime.of(2017, 2, 10, 12, 45), auditoriumService.getByName("Blue hall")));
-        eventService.create(new Event("Movie", Rate.HIGH, 12, LocalDateTime.of(2017, 2, 11, 12, 45), auditoriumService.getByName("Blue hall")));
-        eventService.create(new Event("Valentine's Day", Rate.HIGH, 45, LocalDateTime.of(2017, 2, 10, 22, 45), auditoriumService.getByName("Red hall")));
-        eventService.create(new Event("Valentine's Day", Rate.HIGH, 48, LocalDateTime.of(2017, 2, 10, 20, 0), auditoriumService.getByName("Yellow hall")));
-        eventService.create(new Event("Concert", Rate.MID, 20, LocalDateTime.of(2017, 2, 12, 12, 45), auditoriumService.getByName("Yellow hall")));
-        eventService.create(new Event("Concert", Rate.HIGH, 22, LocalDateTime.of(2017, 2, 12, 20, 0), auditoriumService.getByName("Red hall")));
-        userService.register(new User("a@a", "Vasia", LocalDate.of(1999, 1, 20)));
+        try {
+            eventService.create(new Event("Movie", Rate.LOW, 12, LocalDateTime.of(2017, 2, 10, 12, 45), auditoriumService.getByName("Blue hall")));
+            eventService.create(new Event("Movie", Rate.HIGH, 12, LocalDateTime.of(2017, 2, 11, 12, 45), auditoriumService.getByName("Blue hall")));
+            eventService.create(new Event("Valentine's Day", Rate.HIGH, 45, LocalDateTime.of(2017, 2, 10, 22, 45), auditoriumService.getByName("Red hall")));
+            eventService.create(new Event("Valentine's Day", Rate.HIGH, 48, LocalDateTime.of(2017, 2, 10, 20, 0), auditoriumService.getByName("Yellow hall")));
+            eventService.create(new Event("Concert", Rate.MID, 20, LocalDateTime.of(2017, 2, 12, 12, 45), auditoriumService.getByName("Yellow hall")));
+            eventService.create(new Event("Concert", Rate.HIGH, 22, LocalDateTime.of(2017, 2, 12, 20, 0), auditoriumService.getByName("Red hall")));
+            userService.register(new User("a@a", "Vasia", LocalDate.of(1999, 1, 20)));
+
+        } catch (IllegalStateException ex) {
+            log.warning("Events data from controller was already put to the DB " + ex);
+        }
         return "redirect:events";
     }
 }
