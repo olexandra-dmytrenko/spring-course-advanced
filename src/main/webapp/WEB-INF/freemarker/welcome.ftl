@@ -17,6 +17,7 @@
       <p>
        <a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a>
 </div>
+    <#include "/logoutRedirect.ftl">
 <br>
     <#include "/copyright.ftl">
 
