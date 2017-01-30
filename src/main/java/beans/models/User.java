@@ -16,6 +16,7 @@ public class User {
     private LocalDate birthday;
     private String password;
     private String roles;
+    private boolean enabled;
 
     public User() {
     }
@@ -26,6 +27,7 @@ public class User {
         this.name = name;
         this.birthday = birthday;
         this.password = password;
+        this.enabled = true;
         this.roles = "ROLE_REGISTERED_USER";
     }
 
@@ -83,6 +85,14 @@ public class User {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void setRoles(Roles roles) {
