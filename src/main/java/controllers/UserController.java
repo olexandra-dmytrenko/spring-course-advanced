@@ -1,5 +1,6 @@
 package controllers;
 
+import beans.models.Roles;
 import beans.models.User;
 import beans.services.UserService;
 import lombok.extern.java.Log;
@@ -33,13 +34,16 @@ public class UserController {
     @RequestMapping(value = "/loadUsers", method = RequestMethod.POST)
     public String loadUsersToDB() {
         try {
-            String email1 = "o@g.com";
-            String name = "Dmytro Babichev";
+            String name = "Alexandra";
             LocalDateTime dateOfEvent = LocalDateTime.of(LocalDate.of(2016, 2, 5), LocalTime.of(15, 45, 0));
+            User userManager = new User("o@g.com", name, LocalDate.now(), "1");
+            userManager.setRoles(Roles.ROLE_BOOKING_MANAGER);
+            userService.register(userManager);
+            userService.register(new User("o@e.com", name, LocalDate.of(1992, 4, 29), "1"));
+            User vasia = new User("a@a", "Vasia", LocalDate.of(1999, 1, 20), "1");
+            vasia.setRoles(Roles.ROLE_BOOKING_MANAGER);
+            userService.register(vasia);
 
-            userService.register(new User(email1, name, LocalDate.now()));
-            String email2 = "o@e.com";
-            userService.register(new User(email2, name, LocalDate.of(1992, 4, 29)));
         } catch (IllegalStateException ex) {
             log.warning("Events data from controller was already put to the DB " + ex);
         }

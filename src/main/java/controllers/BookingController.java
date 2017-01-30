@@ -37,24 +37,29 @@ public class BookingController {
 
     @RequestMapping(path = "/ticket", method = RequestMethod.POST)
     public String bookTicketSubmit(@ModelAttribute("ticket") Ticket ticket, ModelMap modelAndView) {
-        String eventName = ticket.getEvent().getName();
-        Event event = eventName != null ? eventService.getByName(eventName).get(0) : null;
+        try {
 
-        String email = ticket.getUser().getEmail();
-        User user = null;
-        if (ticket.getUser() != null && ticket.getUser().getEmail() != null) {
-            user = userService.getUserByEmail(email);
-            if (user == null) {
-                user = new User(email, "Undefined", LocalDate.now());
+            String eventName = ticket.getEvent().getName();
+            Event event = eventName != null ? eventService.getByName(eventName).get(0) : null;
+
+            String email = ticket.getUser().getEmail();
+            User user = null;
+            if (ticket.getUser() != null && ticket.getUser().getEmail() != null) {
+                user = userService.getUserByEmail(email);
+                if (user == null) {
+                    user = new User(email, "Undefined", LocalDate.now(), "1");
+                }
             }
+            Ticket ticketBooked = bookingService.bookTicket(user,
+                    new Ticket(event, LocalDateTime.now(), Arrays.asList(Integer.parseInt(ticket.getSeats())), user, 20));
+            modelAndView.addAttribute("ticket", ticketBooked);
+            return "ticket";
+        } catch (Exception e) {
+            return "errorLoadData";
         }
-        Ticket ticketBooked = bookingService.bookTicket(user,
-                new Ticket(event, LocalDateTime.now(), Arrays.asList(Integer.parseInt(ticket.getSeats())), user, 20));
-        modelAndView.addAttribute("ticket", ticketBooked);
-        return "ticket";
     }
 
-    //    http://localhost:8080/ticket
+    //   redirects to http://localhost:8080/ticket
     @RequestMapping(path = "/bookTicket", method = RequestMethod.GET)
     public ModelAndView bookTicket() {
         return new ModelAndView("bookTicket", "command", new Ticket());
@@ -71,5 +76,10 @@ public class BookingController {
         List<Ticket> allTickets = bookingService.getTicketsForEvent(event, auditorium, dateTime);
         modelMap.addAttribute("allTickets", allTickets);
         return "tickets";
+    }
+
+    @RequestMapping(path = "403_AccessDenied", method = RequestMethod.GET)
+    public String noAccess() {
+        return "403_AccessDenied";
     }
 }

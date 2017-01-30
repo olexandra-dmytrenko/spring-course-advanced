@@ -14,8 +14,9 @@
     <#include "/loadEvents.ftl">
 <div>
        <a href="${eventsUrl!"/events"!}">${events!"See events"!}</a>
-      <p>
-       <a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a>
+<p>
+    <#include "/bookTicketRedirect.ftl">
+<#--       <a href="${bookTicketUrl!"/bookTicket"!}">${bookTicketName!"Book ticket"!}</a> -->
 </div>
     <#include "/logoutRedirect.ftl">
 <br>
