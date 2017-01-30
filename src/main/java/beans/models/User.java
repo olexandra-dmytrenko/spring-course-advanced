@@ -28,7 +28,7 @@ public class User {
         this.birthday = birthday;
         this.password = password;
         this.enabled = true;
-        this.roles = "ROLE_REGISTERED_USER";
+        this.roles = Roles.ROLE_REGISTERED_USER.toString();
     }
 
     public User(String email, String name, LocalDate birthday, String password) {
@@ -96,7 +96,7 @@ public class User {
     }
 
     public void setRoles(Roles roles) {
-        this.roles += ", " + roles;
+        this.roles += "," + roles;
     }
 
     @Override
