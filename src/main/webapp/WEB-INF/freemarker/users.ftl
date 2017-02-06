@@ -10,6 +10,8 @@
                 <th>User Name</th>
                 <th>Email</th>
                 <th>Birthday</th>
+                <th>Roles</th>
+                <th>Balance</th>
             </tr>
         <#list users as user>
             <tr>
@@ -17,6 +19,7 @@
                 <td>${user.name}
                 <td>${user.email}
                 <td>${user.birthday}
+                <td>${user.userAccount.moneyAmount}
             </tr>
           </#list>
     </table>

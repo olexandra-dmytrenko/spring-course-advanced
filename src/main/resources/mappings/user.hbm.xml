@@ -22,6 +22,8 @@
         <property name="name" column="NAME" type="string"/>
         <property name="enabled" column="ENABLED" type="boolean"/>
         <property name="birthday" type="java.time.LocalDate" column="EVENT_DATE"/>
+        <one-to-one name="UserAccount" class="beans.models.UserAccount"
+                    cascade="save-update"></one-to-one>
     </class>
 
 </hibernate-mapping>

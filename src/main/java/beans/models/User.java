@@ -17,6 +17,7 @@ public class User {
     private String password;
     private String roles;
     private boolean enabled;
+    private UserAccount userAccount;
 
     public User() {
     }
@@ -29,6 +30,10 @@ public class User {
         this.password = password;
         this.enabled = true;
         this.roles = Roles.ROLE_REGISTERED_USER.toString();
+        UserAccount userAccountNew = new UserAccount(0.0);
+        userAccountNew.setUserId(id);
+        userAccountNew.setUser(this);
+        this.userAccount = userAccountNew;
     }
 
     public User(String email, String name, LocalDate birthday, String password) {
@@ -99,6 +104,14 @@ public class User {
         this.roles += "," + roles;
     }
 
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -112,9 +125,7 @@ public class User {
             return false;
         if (email != null ? !email.equals(user.email) : user.email != null)
             return false;
-        if (name != null ? !name.equals(user.name) : user.name != null)
-            return false;
-        return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
+        return name != null ? name.equals(user.name) : user.name == null && (birthday != null ? birthday.equals(user.birthday) : user.birthday == null);
 
     }
 
